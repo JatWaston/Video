@@ -8,7 +8,10 @@ header("Content-Type: text/html;charset=utf-8");
 
 $imageSpider = new ImageSpider();
 
-$imageSpider->fetchContent('http://www.gaoxiaodashi.com/egaozhenggu/');
+//$imageSpider->fetchVideoPageCount('http://www.gaoxiaodashi.com/egaozhenggu/');
+$result = $imageSpider->fetchContent('http://www.gaoxiaodashi.com/egaozhenggu/');
+
+echo MessageResponse::createJSONMessage(0,'获取成功',$result);
 
 
 ?>

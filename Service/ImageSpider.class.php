@@ -16,6 +16,8 @@ class ImageSpider
 	{
 		$result = array();
 		$curl = curl_init();
+		//伪造User-Agent为window下的浏览器,不然会被引导到手机端
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727;http://www.baidu.com)'); 
 		curl_setopt($curl, CURLOPT_URL, $url/*"http://b.app111.com/iphone/58-0-0-1/"*/);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
@@ -25,11 +27,13 @@ class ImageSpider
 		$count = count($explodeArray);
 		for ($i=1; $i<$count; $i++) { 
 
+			$result[$i-1] = array();
 			//获取播放时间
 			$tempTime = explode('<span class="tm">',$explodeArray[$i]);
 			$tempTime = explode('</span>',$tempTime[1]);
 			$videoTime = $tempTime[0];
-			//echo "playTime:" . $playTime . "<br/>";
+			//echo "playTime:" . $videoTime . "<br/>";
+			$result[$i-1]['time'] = $videoTime;
 
 			//获取视频介绍
 			$tempDescription = explode('alt=',$explodeArray[$i]);
@@ -37,29 +41,77 @@ class ImageSpider
 			$tempPlayUrl = explode('<a href=', $tempImgUrl[0]); //获取播放地址
 			$tempDescription = explode('width=', $tempDescription[1]);
 			$videoDescription = $tempDescription[0];
-			echo "description: " . $videoDescription . "<br/>";
+			//echo "description: " . $videoDescription . "<br/>";
+			$result[$i-1]['description'] = $videoDescription;
 
 			//获取视频图片
 			$tempImgUrl = explode('"',$tempImgUrl[1]);
 			$videoImgUrl = $tempImgUrl[1];
-			echo "img url: " . $videoImgUrl . "<br/>";
+			//echo "img url: " . $videoImgUrl . "<br/>";
+			$result[$i-1]['video_cover_img'] = $videoImgUrl;
 
 			//获取播放地址
 			$tempPlayUrl = explode('"', $tempPlayUrl[1]);
-			$videoUrl = $tempPlayUrl[1];
-			echo "video url: " . $videoUrl . "<br/>";
+			$videoUrl = ImageSpider::fetchVideoURL($tempPlayUrl[1]);
+			//echo "video url: " . $videoUrl . "<br/>";
+			$result[$i-1]['video_play_url'] = $videoUrl;
 
 			//获取播放次数
 			$tempPlayCount = explode('<div class="sz">',$explodeArray[$i]);
 			$tempPlayCount = explode('<cite>', $tempPlayCount[1]);
 			$tempPlayCount = explode('</cite>', $tempPlayCount[1]);
 			$videoPlayCount = $tempPlayCount[0];
-			echo "video play count: " . $videoPlayCount . "<br/>";
+			//echo "video play count: " . $videoPlayCount . "<br/>";
+			$result[$i-1]['video_play_count'] = $videoPlayCount;
 
-			echo $explodeArray[$i];
-
-
+			//echo $explodeArray[$i];
+			//echo "<br/>";
 		}
+		return $result;
+	}
+
+	function fetchVideoPageCount($webURL)
+	{
+		$curl = curl_init();
+		//伪造User-Agent为window下的浏览器,不然会被引导到手机端
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727;http://www.baidu.com)'); 
+		curl_setopt($curl, CURLOPT_URL, $webURL);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		$output = curl_exec($curl);
+		curl_close($curl);
+		$pageCount = 0;
+		$explodeArray = explode('<div class="pages">',$output);
+		if (!empty($explodeArray)) {
+			$tempArray = explode('</div>',$explodeArray[1]);
+			$tempArray = explode('<a href=',$tempArray[0]);
+			$count = count($tempArray);
+			if ($count >= 2) {
+				//echo $tempArray[$count-2];
+				$pageTemp = explode('>',$tempArray[$count-2]);
+				$pageTemp = explode('<',$pageTemp[1]);
+				$pageCount = $pageTemp[0];
+			}
+		}
+		//echo "pageCount = " . $pageCount . "<br/>";
+		return $pageCount;
+	}
+
+	function fetchVideoURL($webURL)
+	{
+		$curl = curl_init();
+		//伪造User-Agent为window下的浏览器,不然会被引导到手机端
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727;http://www.baidu.com)'); 
+		curl_setopt($curl, CURLOPT_URL, $webURL);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		$output = curl_exec($curl);
+		$explodeArray = explode('var flashvars=',$output);
+		$videoTemp = explode('}',$explodeArray[1]);
+		$videoTemp = explode('a:',$videoTemp[0]);
+		$videoTemp = explode(',',$videoTemp[1]);
+		$videoTemp = explode("'",$videoTemp[0]);
+		return $videoTemp[1];
 	}
 
 	function fetchDetailImage($url)
