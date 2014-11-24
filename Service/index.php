@@ -2,9 +2,13 @@
 
 require_once('./ImageSpider.class.php');
 require_once('./MessageResponse.class.php');
-
+require_once('./Youku.class.php');
 header("Content-Type: text/html;charset=utf-8");
 
+$url = "v.youku.com/v_show/id_XODMzNzAwNzcy.html";
+$data = Youku::parse($url);
+print_r($data);
+return;
 
 $imageSpider = new ImageSpider();
 
