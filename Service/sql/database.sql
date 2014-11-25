@@ -1,0 +1,9 @@
+﻿/*视频目录*/
+DROP TABLE IF EXISTS `catalog`;
+
+CREATE TABLE `catalog` (`catalog` INT NOT NULL,`name` VARCHAR(32) NOT NULL,PRIMARY KEY(`catalog`)) DEFAULT CHARSET UTF8;
+
+/*视频分类*/
+DROP TABLE IF EXISTS `type`;
+
+CREATE TABLE `type` (`catalog` INT NOT NULL,`name` VARCHAR(32) NOT NULL,`type` INT NOT NULL,PRIMARY KEY(`type`)) DEFAULT CHARSET UTF8;
