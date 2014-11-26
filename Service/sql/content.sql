@@ -20,7 +20,7 @@ INSERT INTO type (`catalog`,`name`,`type`) VALUES (1000,'搞笑自拍',1008);
 INSERT INTO type (`catalog`,`name`,`type`) VALUES (1000,'趣味广告',1009);
 INSERT INTO type (`catalog`,`name`,`type`) VALUES (1000,'搞笑汽车',1010);
 
-/*搞笑短片分类*/
+/*搞笑配音分类*/
 INSERT INTO type (`catalog`,`name`,`type`) VALUES (2000,'恶搞配音神剪辑',2001);
 INSERT INTO type (`catalog`,`name`,`type`) VALUES (2000,'胥渡吧',2002);
 INSERT INTO type (`catalog`,`name`,`type`) VALUES (2000,'大案命案',2003);
