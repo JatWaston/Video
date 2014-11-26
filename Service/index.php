@@ -4,6 +4,8 @@ require_once('./ImageSpider.class.php');
 require_once('./MessageResponse.class.php');
 require_once('./Youku.class.php');
 require_once('./YoukuM3U8.class.php');
+require_once('./Database.class.php');
+
 header("Content-Type: text/html;charset=utf-8");
 
 // $url = "http://v.youku.com/v_show/id_XODMzNTg4ODIw.html";
@@ -101,9 +103,60 @@ $urlArray = array(/*搞笑短片分类*/
 				  array('catalog' => 7000, 'type' => 7004, 'url' => 'http://www.gaoxiaodashi.com/shenhuifu/wofangnihua/'),/*我访你话*/
 
 				  /*社会热点分类*/
-				  array('catalog' => 8000, 'type' => 8001, 'url' => 'http://www.gaoxiaodashi.com/shehuilieqi/'),/*社会猎奇*/)
+				  array('catalog' => 8000, 'type' => 8001, 'url' => 'http://www.gaoxiaodashi.com/shehuilieqi/'),/*社会猎奇*/);
 
 $imageSpider = new ImageSpider();
+$database = Database::getInstance();
+
+$date = date("Y-m-d h:m:s");
+foreach ($urlArray as $key => $value) {
+	$catalog = $value['catalog'];
+	$type = $value['type'];
+	$url = $value['url'];
+	$pageCount = $imageSpider->fetchVideoPageCount($url);
+	$pageCount = $pageCount == 0 ? 1 : $pageCount;
+	echo "pageCount = " . $pageCount . "<br/>";
+
+	for ($i=1; $i <= $pageCount; $i++) { 
+		$requestURL = $url;
+		if ($i > 1) {
+			$requestURL = $url . $i . ".html";
+		}
+		echo "requestURL = " . $requestURL . "<br/>";
+		$res = $imageSpider->fetchContent($requestURL);
+	
+		foreach ($res as $resKey => $resValue) {
+			$videoTime = $resValue['video_time'];
+			$videoTitle = $resValue['video_title'];
+			$videoCoverImg = $resValue['video_cover_img'];
+			$videoWebURL = $resValue['video_play_url'];
+			$videoURL = '';
+			$videoDescription = $resValue['video_description'];
+			$videoPlayCount = $resValue['video_play_count'];
+			$videoID = md5($videoWebURL);
+
+			$likeCount = rand(0,$videoPlayCount);
+			$unlikeCount = rand(0,$likeCount/2);
+			$shareCount = rand(0,$videoPlayCount);
+
+			$sql = "INSERT INTO `videoList` (`id`,`catalog`,`type`,`title`,`description`,`videoURL`,`webURL`,`coverImgURL`,`localImgURL`,`videoTime`,`createDate`,`playCount`,`likeCount`,`unlikeCount`,`shareCount`)
+								 VALUES ('$videoID','$catalog','$type','$videoTitle','$videoDescription','$videoURL','$videoWebURL','$videoCoverImg','','$videoTime','$date','$videoPlayCount','$likeCount','$unlikeCount','$shareCount');";
+			//echo $sql . "<br/>";					 
+			if ($database->query($sql)) {
+				echo "success" . "<br/>";
+			} else {
+				echo "error" . mysql_error() . "<br/>";
+				echo $sql . "<br/>";
+			}
+		}
+	}
+	echo $url . "   ============ END ============" . "<br/>";
+
+}
+
+echo "============ END ============" . "<br/>";
+
+return;
 
 //$imageSpider->fetchVideoPageCount('http://www.gaoxiaodashi.com/egaozhenggu/');
 $result = $imageSpider->fetchContent('http://www.gaoxiaodashi.com/daanminganyaoanzaishen/');
