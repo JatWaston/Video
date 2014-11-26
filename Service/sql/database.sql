@@ -13,5 +13,5 @@ DROP TABLE IF EXISTS `videoList`;
 
 CREATE TABLE `videoList` (`id` VARCHAR(33) NOT NULL,`catalog` INT NOT NULL,`type` INT NOT NULL,`title` VARCHAR(512),`description` VARCHAR(512) NOT NULL,
 						  `videoURL` VARCHAR(128) NOT NULL,`webURL` VARCHAR(128) NOT NULL,`coverImgURL` VARCHAR(128) NOT NULL,`localImgURL` VARCHAR(128) NOT NULL,
-						  `createDate` DATE NOT NULL,`likeCount` INT NOT NULL,`unlikeCount` INT NOT NULL,`shareCount` INT NOT NULL,
+						  `createDate` DATE NOT NULL,`playCount` INT NOT NULL,`likeCount` INT NOT NULL,`unlikeCount` INT NOT NULL,`shareCount` INT NOT NULL,
 PRIMARY KEY(`id`)) DEFAULT CHARSET UTF8;
