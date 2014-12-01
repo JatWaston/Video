@@ -15,3 +15,10 @@ CREATE TABLE `videoList` (`id` VARCHAR(33) NOT NULL,`catalog` INT NOT NULL,`type
 						  `videoURL` VARCHAR(128) NOT NULL,`webURL` VARCHAR(128) NOT NULL,`coverImgURL` VARCHAR(128) NOT NULL,`localImgURL` VARCHAR(128),`videoTime` VARCHAR(16) NOT NULL,
 						  `createDate` DATE NOT NULL,`playCount` INT NOT NULL,`likeCount` INT NOT NULL,`unlikeCount` INT NOT NULL,`shareCount` INT NOT NULL,
 PRIMARY KEY(`id`)) DEFAULT CHARSET UTF8;
+
+/*文字笑话*/
+DROP TABLE IF EXISTS `jokeList`;
+
+CREATE TABLE `jokeList` (`id` VARCHAR(33) NOT NULL,`title` VARCHAR(64),`content` VARCHAR(512) NOT NULL,
+						  `createDate` DATE NOT NULL,`likeCount` INT NOT NULL,`unlikeCount` INT NOT NULL,`shareCount` INT NOT NULL,
+PRIMARY KEY(`id`)) DEFAULT CHARSET UTF8;
