@@ -8,6 +8,29 @@ require_once('./Database.class.php');
 
 header("Content-Type: text/html;charset=utf-8");
 
+$sql = "SELECT id,coverImgURL FROM videoList WHERE coverImgWidth = 0;";
+$database = Database::getInstance();
+$res = $database->fetch_obj_arr($sql);
+$count = 0;
+foreach ($res as $key => $value) {
+	$image_size = getimagesize($value->coverImgURL);
+	$img_width = $image_size[0];
+	$img_height = $image_size[1];
+	if ($img_width != 0) {
+		$sql = "UPDATE `videoList` SET `coverImgHeight` = {$img_height},`coverImgWidth` = {$img_width} WHERE `id` = '{$value->id}';";
+		$database->query($sql);
+		$count++;
+		// echo "success" . "<br/>";
+	} else {
+		// echo "failure" . "<br/>";
+		// echo $sql . "<br/>";
+	}
+	//break;
+}
+echo "更新 {$table} " . $count . " 条数据";
+
+return;
+
 $sql = "SELECT id,webURL FROM videoList WHERE videoURL = '';";
 
 $database = Database::getInstance();

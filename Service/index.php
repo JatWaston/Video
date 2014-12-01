@@ -11,8 +11,8 @@ header("Content-Type: text/html;charset=utf-8");
 // $url = "http://v.youku.com/v_show/id_XODMzNTg4ODIw.html";
 // $data = Youku::parse($url);
 // print_r($data);
-echo youku_m3u8::get_m3u8_url('XODM0ODQ0NDg4');
-return;
+// echo youku_m3u8::get_m3u8_url('XODM0ODQ0NDg4');
+// return;
 // 
 $urlArray = array(/*搞笑短片分类*/
 				  array('catalog' => 1000, 'type' => 1001, 'url' => 'http://www.gaoxiaodashi.com/egaozhenggu/'),/*恶搞整蛊*/
@@ -118,6 +118,7 @@ foreach ($urlArray as $key => $value) {
 	echo "pageCount = " . $pageCount . "<br/>";
 
 	for ($i=1; $i <= $pageCount; $i++) { 
+		$finish = false;
 		$requestURL = $url;
 		if ($i > 1) {
 			$requestURL = $url . $i . ".html";
@@ -147,7 +148,13 @@ foreach ($urlArray as $key => $value) {
 			} else {
 				echo "error" . mysql_error() . "<br/>";
 				echo $sql . "<br/>";
+				$finish = true;
+				break;
 			}
+		}
+		if ($finish) {
+			echo "第 " . $i . " 页" . "<br/>";
+			break;
 		}
 	}
 	echo $url . "   ============ END ============" . "<br/>";
