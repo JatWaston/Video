@@ -11,7 +11,8 @@ header("Content-Type: text/html;charset=utf-8");
 // $url = "http://v.youku.com/v_show/id_XODMzNTg4ODIw.html";
 // $data = Youku::parse($url);
 // print_r($data);
-// echo youku_m3u8::get_m3u8_url('XODM0ODQ0NDg4');
+// http://v.youku.com/v_show/id_XODM3NDkyMDU2.html
+// echo youku_m3u8::get_m3u8_url('XODM3NDkyMDU2');
 // return;
 // 
 $urlArray = array(/*搞笑短片分类*/
