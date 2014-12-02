@@ -42,6 +42,8 @@ class ImageSpider
 			$tempTitle = explode('width=', $tempTitle[1]);
 			$videoTitle = $tempTitle[0];
 			//echo "description: " . $videoDescription . "<br/>";
+			$videoTitle = trim($videoTitle,' '); //去除左右空格
+			$videoTitle = trim($videoTitle,'"'); //去除左右双引号
 			$result[$i-1]['video_title'] = $videoTitle;
 
 			//获取视频图片

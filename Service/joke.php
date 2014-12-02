@@ -12,11 +12,11 @@ header("Content-Type: text/html;charset=utf-8");
 $spider = new JokeSpider();
 $database = Database::getInstance();
 $date = date("Y-m-d h:m:s");
+$index = 0;
 for ($i=1; $i <=979; $i++) { 
+	$finish = false;
 	$url = "http://www.waduanzi.com/joke/page/" . $i;
 	$res = $spider->fetchContent($url);
-	// print_r($res);
-	// break;
 	$count = count($res);
 	foreach ($res as $key => $value) {
 		$content = $value['content'];
@@ -27,16 +27,22 @@ for ($i=1; $i <=979; $i++) {
 		// echo $sql . "<br/>";
 		// break;
 		if ($database->query($sql)) {
-			echo "success" . "<br/>";
+			//echo "success" . "<br/>";
+			$index++;
 		} else {
 			echo "error" . mysql_error() . "<br/>";
 			echo $sql . "<br/>";
+			$finish = true;
 			break;
 		}
 	}
+	if ($finish) {
+		echo "第 " . $i . " 页" . "<br/>";
+		break;
+	}
 }
 
-echo "============ END ============" . "<br/>";
+echo "更新[ " . $index . " ]条笑话" . "<br/>";
 
 
 // print_r($res);

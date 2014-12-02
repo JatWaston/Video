@@ -107,7 +107,7 @@ $urlArray = array(/*搞笑短片分类*/
 
 $imageSpider = new ImageSpider();
 $database = Database::getInstance();
-
+$updateCount = 0;
 $date = date("Y-m-d h:m:s");
 foreach ($urlArray as $key => $value) {
 	$catalog = $value['catalog'];
@@ -115,7 +115,7 @@ foreach ($urlArray as $key => $value) {
 	$url = $value['url'];
 	$pageCount = $imageSpider->fetchVideoPageCount($url);
 	$pageCount = $pageCount == 0 ? 1 : $pageCount;
-	echo "pageCount = " . $pageCount . "<br/>";
+	//echo "pageCount = " . $pageCount . "<br/>";
 
 	for ($i=1; $i <= $pageCount; $i++) { 
 		$finish = false;
@@ -123,7 +123,7 @@ foreach ($urlArray as $key => $value) {
 		if ($i > 1) {
 			$requestURL = $url . $i . ".html";
 		}
-		echo "requestURL = " . $requestURL . "<br/>";
+		//echo "requestURL = " . $requestURL . "<br/>";
 		$res = $imageSpider->fetchContent($requestURL);
 	
 		foreach ($res as $resKey => $resValue) {
@@ -144,7 +144,8 @@ foreach ($urlArray as $key => $value) {
 								 VALUES ('$videoID','$catalog','$type','$videoTitle','$videoDescription','$videoURL','$videoWebURL','$videoCoverImg','','$videoTime','$date','$videoPlayCount','$likeCount','$unlikeCount','$shareCount');";
 			//echo $sql . "<br/>";					 
 			if ($database->query($sql)) {
-				echo "success" . "<br/>";
+				//echo "success" . "<br/>";
+				$updateCount++;
 			} else {
 				echo "error" . mysql_error() . "<br/>";
 				echo $sql . "<br/>";
@@ -153,15 +154,15 @@ foreach ($urlArray as $key => $value) {
 			}
 		}
 		if ($finish) {
-			echo "第 " . $i . " 页" . "<br/>";
+			//echo "第 " . $i . " 页" . "<br/>";
 			break;
 		}
 	}
-	echo $url . "   ============ END ============" . "<br/>";
+	//echo $url . "   ============ END ============" . "<br/>";
 
 }
 
-echo "============ END ============" . "<br/>";
+echo "更新[ " . $updateCount . " ]条内容" . "<br/>";
 
 return;
 

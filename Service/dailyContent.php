@@ -14,7 +14,8 @@ $md5 = md5($params['catalog'] . $params['type'] . $page . "Video");
 if ($params['valid'] == $md5) {
 	$from = ($page-1)*$pageSize;
 	$type = $params['type'];
-	$sql = "SELECT * FROM `videoList` WHERE type = {$type} ORDER BY createDate DESC LIMIT {$from},{$pageSize}";
+	//$sql = "SELECT * FROM `videoList` WHERE type = {$type} ORDER BY createDate DESC LIMIT {$from},{$pageSize}";
+	$sql = "SELECT * FROM `videoList` ORDER BY createDate DESC LIMIT {$from},{$pageSize}";
 	//echo $sql . "<br/>";
 	$database = Database::getInstance();
 	$res = $database->fetch_obj_arr($sql);
