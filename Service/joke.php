@@ -11,7 +11,7 @@ header("Content-Type: text/html;charset=utf-8");
 
 $spider = new JokeSpider();
 $database = Database::getInstance();
-$date = date("Y-m-d h:m:s");
+
 $index = 0;
 for ($i=1; $i <=979; $i++) { 
 	$finish = false;
@@ -23,6 +23,7 @@ for ($i=1; $i <=979; $i++) {
 		echo $content . "<br/>";
 		$title = $value['title'];
 		$id = md5($content);
+		$date = date("Y-m-d h:m:s");
 		$sql = "INSERT INTO `jokeList` (`id`,`title`,`content`,`createDate`,`likeCount`,`unlikeCount`,`shareCount`)
 								 VALUES ('$id','$title','$content','$date','0','0','0');";
 		// echo $sql . "<br/>";
@@ -42,6 +43,9 @@ for ($i=1; $i <=979; $i++) {
 		break;
 	}
 }
+//替换多余的换行
+$sql = "UPDATE jokeList SET `content` = REPLACE(`content`, '\n\n', '\n')";
+$database->query($sql)
 
 echo "更新[ " . $index . " ]条笑话" . "<br/>";
 

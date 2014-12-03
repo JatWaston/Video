@@ -52,12 +52,34 @@ class ImageSpider
 			//echo "img url: " . $videoImgUrl . "<br/>";
 			$result[$i-1]['video_cover_img'] = $videoImgUrl;
 
+			//获取图片大小
+			$result[$i-1]['video_cover_img_width'] = 0;
+			$result[$i-1]['video_cover_img_height'] = 0;
+			// if (!empty($result[$i-1]['video_cover_img'])) {
+			// 	$image_size = getimagesize($result[$i-1]['video_cover_img']);
+			// 	$img_width = $image_size[0];
+			// 	$img_height = $image_size[1];
+			// 	$result[$i-1]['video_cover_img_width'] = $img_width;
+			// 	$result[$i-1]['video_cover_img_height'] = $img_height;
+			// }
+
 			//获取播放地址
 			$tempPlayUrl = explode('"', $tempPlayUrl[1]);
 			$videoResult = ImageSpider::fetchVideoURLAndDescription($tempPlayUrl[1]);
 			//echo "video url: " . $videoUrl . "<br/>";
 			$result[$i-1]['video_play_url'] = $videoResult['video_play_url'];
 
+			//获取优酷真实的播放地址
+			$result[$i-1]['video_youku_url'] = '';
+			$in = strstr($result[$i-1]['video_play_url'],'youku'); //检测url是否是youku链接
+			if ($in) {
+				$youkuID = explode('id_',$result[$i-1]['video_play_url']);
+				$youkuID = explode('.html',$youkuID[1]);
+				$youkuVideo = youku_m3u8::get_m3u8_url($youkuID[0]);
+				$result[$i-1]['video_youku_url'] = $youkuVideo;
+			}
+
+			//视频描述
 			$result[$i-1]['video_description'] = $videoResult['video_description'];
 
 			//获取播放次数

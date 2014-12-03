@@ -109,7 +109,6 @@ $urlArray = array(/*搞笑短片分类*/
 $imageSpider = new ImageSpider();
 $database = Database::getInstance();
 $updateCount = 0;
-$date = date("Y-m-d h:m:s");
 foreach ($urlArray as $key => $value) {
 	$catalog = $value['catalog'];
 	$type = $value['type'];
@@ -131,8 +130,11 @@ foreach ($urlArray as $key => $value) {
 			$videoTime = $resValue['video_time'];
 			$videoTitle = $resValue['video_title'];
 			$videoCoverImg = $resValue['video_cover_img'];
+			$coverImgWidth = $resValue['video_cover_img_width'];
+			$coverImgHeight = $resValue['video_cover_img_height'];
 			$videoWebURL = $resValue['video_play_url'];
-			$videoURL = '';
+
+			$videoURL = $resValue['video_youku_url'];
 			$videoDescription = $resValue['video_description'];
 			$videoPlayCount = $resValue['video_play_count'];
 			$videoID = md5($videoWebURL);
@@ -141,15 +143,17 @@ foreach ($urlArray as $key => $value) {
 			$unlikeCount = rand(0,$likeCount/2);
 			$shareCount = rand(0,$videoPlayCount);
 
-			$sql = "INSERT INTO `videoList` (`id`,`catalog`,`type`,`title`,`description`,`videoURL`,`webURL`,`coverImgURL`,`localImgURL`,`videoTime`,`createDate`,`playCount`,`likeCount`,`unlikeCount`,`shareCount`)
-								 VALUES ('$videoID','$catalog','$type','$videoTitle','$videoDescription','$videoURL','$videoWebURL','$videoCoverImg','','$videoTime','$date','$videoPlayCount','$likeCount','$unlikeCount','$shareCount');";
+			$date = date("Y-m-d h:m:s");
+			$sql = "INSERT INTO `videoList` (`id`,`catalog`,`type`,`title`,`description`,`videoURL`,`webURL`,`coverImgURL`,`localImgURL`,`videoTime`,`createDate`,`playCount`,`likeCount`,`unlikeCount`,`shareCount`,`coverImgWidth`,`coverImgHeight`)
+								 VALUES ('$videoID','$catalog','$type','$videoTitle','$videoDescription','$videoURL','$videoWebURL','$videoCoverImg','','$videoTime','$date','$videoPlayCount','$likeCount','$unlikeCount','$shareCount','$coverImgWidth','$coverImgHeight');";
 			//echo $sql . "<br/>";					 
 			if ($database->query($sql)) {
-				//echo "success" . "<br/>";
+				echo "success" . "<br/>";
+				//echo $sql . "<br/>";
 				$updateCount++;
 			} else {
 				echo "error" . mysql_error() . "<br/>";
-				echo $sql . "<br/>";
+				//echo $sql . "<br/>";
 				$finish = true;
 				break;
 			}
