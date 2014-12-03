@@ -57,7 +57,8 @@ class JokeSpider
 			$content = str_replace('<br />','\n',$contentTemp[0]);
 			//echo "content = " . $content . "<br/>";
 			$content = str_replace('<p>','',$content);
-			$content = str_replace('</p>','\n',$content);
+			//$content = str_replace('</p>','\n',$content);
+			$content = str_replace('</p>','',$content);
 			$result[$index]['content'] = $content;
 
 			$index++;

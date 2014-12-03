@@ -20,6 +20,7 @@ for ($i=1; $i <=979; $i++) {
 	$count = count($res);
 	foreach ($res as $key => $value) {
 		$content = $value['content'];
+		echo $content . "<br/>";
 		$title = $value['title'];
 		$id = md5($content);
 		$sql = "INSERT INTO `jokeList` (`id`,`title`,`content`,`createDate`,`likeCount`,`unlikeCount`,`shareCount`)
