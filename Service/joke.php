@@ -23,7 +23,7 @@ for ($i=1; $i <=979; $i++) {
 		echo $content . "<br/>";
 		$title = $value['title'];
 		$id = md5($content);
-		$date = date("Y-m-d h:m:s");
+		$date = date("Y-m-d H:m:s"); //"Y-m-d H:m:s" 24小时制 "Y-m-d h:m:s" 12小时制
 		$sql = "INSERT INTO `jokeList` (`id`,`title`,`content`,`createDate`,`likeCount`,`unlikeCount`,`shareCount`)
 								 VALUES ('$id','$title','$content','$date','0','0','0');";
 		// echo $sql . "<br/>";
@@ -45,7 +45,7 @@ for ($i=1; $i <=979; $i++) {
 }
 //替换多余的换行
 $sql = "UPDATE jokeList SET `content` = REPLACE(`content`, '\n\n', '\n')";
-$database->query($sql)
+$database->query($sql);
 
 echo "更新[ " . $index . " ]条笑话" . "<br/>";
 

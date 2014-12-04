@@ -143,7 +143,7 @@ foreach ($urlArray as $key => $value) {
 			$unlikeCount = rand(0,$likeCount/2);
 			$shareCount = rand(0,$videoPlayCount);
 
-			$date = date("Y-m-d h:m:s");
+			$date = date("Y-m-d H:m:s");
 			$sql = "INSERT INTO `videoList` (`id`,`catalog`,`type`,`title`,`description`,`videoURL`,`webURL`,`coverImgURL`,`localImgURL`,`videoTime`,`createDate`,`playCount`,`likeCount`,`unlikeCount`,`shareCount`,`coverImgWidth`,`coverImgHeight`)
 								 VALUES ('$videoID','$catalog','$type','$videoTitle','$videoDescription','$videoURL','$videoWebURL','$videoCoverImg','','$videoTime','$date','$videoPlayCount','$likeCount','$unlikeCount','$shareCount','$coverImgWidth','$coverImgHeight');";
 			//echo $sql . "<br/>";					 
