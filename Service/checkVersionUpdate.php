@@ -8,5 +8,6 @@ header("Content-Type: text/html;charset=utf-8");
 
 $database = Database::getInstance();
 
+echo MessageResponse::createJSONMessage(0,'获取成功',array());
 
 ?>
