@@ -22,3 +22,10 @@ DROP TABLE IF EXISTS `jokeList`;
 CREATE TABLE `jokeList` (`id` VARCHAR(33) NOT NULL,`title` VARCHAR(64),`content` VARCHAR(512) NOT NULL,
 						  `createDate` DATE NOT NULL,`likeCount` INT NOT NULL,`unlikeCount` INT NOT NULL,`shareCount` INT NOT NULL,
 PRIMARY KEY(`id`)) DEFAULT CHARSET UTF8;
+
+/*版本更新数据库*/
+DROP TABLE IF EXISTS `versionUpdate`;
+
+CREATE TABLE `versionUpdate` (`storeName` VARCHAR(16) NOT NULL,`latestVersion` VARCHAR(8),`store` INT NOT NULL,
+						  `updateMessage` VARCHAR(256) NOT NULL,`isPublish` INT NOT NULL,
+PRIMARY KEY(`storeName`)) DEFAULT CHARSET UTF8;
