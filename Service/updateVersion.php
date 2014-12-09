@@ -13,8 +13,6 @@ $latestVersion = $_GET['latest_version'];
 $updateContet = $_GET['update_content'];
 $storeName = $_GET['store'];
 
-
-
 if (isset($_GET['save'])) {
 	echo "保存版本" . "<br/>";
 	$sql = "UPDATE `versionUpdate` SET `latestVersion` = '{$latestVersion}',`updateMessage` = '{$updateContet}',`isPublish` = '0' WHERE `storeName` = '{$storeName}';";
@@ -23,6 +21,11 @@ if (isset($_GET['save'])) {
 } else if ($_GET['publish']) {
 	echo "发布版本" . "<br/>";
 	$sql = "UPDATE `versionUpdate` SET `isPublish` = '1' WHERE `storeName` = '{$storeName}';";
+	echo $sql . "<br/>";
+	$database->query($sql);
+} else if ($_GET['saveAndPublish']) {
+	echo "保存并发布版本" . "<br/>";
+	$sql = "UPDATE `versionUpdate` SET `latestVersion` = '{$latestVersion}',`updateMessage` = '{$updateContet}',`isPublish` = '1' WHERE `storeName` = '{$storeName}';";
 	echo $sql . "<br/>";
 	$database->query($sql);
 }
