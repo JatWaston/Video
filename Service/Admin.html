@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>趣视后台管理系统</title>
+	</head>
+	<body>
+		<div>
+			<form action="./index.php" method="get">
+				<input type="submit" name="video" value="视频采集" />
+			</form>
+			<form action="./joke.php" method="get">
+				<input type="submit" name="joke" value="笑话采集" />
+			</form>
+		</div>
+		<hr>
+		<div>
+			<h2>版本更新</h2>
+			<form action="./updateVersion.php" method="get">
+				<textarea row="10" cols="40" name="update_content">
+				</textarea>
+				<br/>
+				平台:
+				<select name="store">
+					<option value="AppStore" selected="selected">AppStore</option>
+					<option value="91Store">91Store</option>
+				</select>
+				<br/>
+				强制更新:
+				<input type="radio" name="force_update" value="是">是
+				<input type="radio" name="force_update" value="否" checked="checked">否
+				<br/>
+				最新版本:
+				<input type="text" name="latest_version" value="1.0">
+				<br/>
+				<br/>
+				<!-- <p> -->
+					<input type="submit" name="save" value="保存">
+					<input type="submit" name="publish" value="发布">
+				<!-- </p> -->
+			</form>
+		</div>
+	</body>
+</html>
